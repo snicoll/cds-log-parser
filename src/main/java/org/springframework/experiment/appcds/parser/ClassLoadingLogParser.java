@@ -95,7 +95,7 @@ public class ClassLoadingLogParser {
 		}
 
 		private LogLine parse(String line) {
-			int tagStart = line.indexOf("[");
+			int tagStart = line.lastIndexOf("[");
 			int tagEnd = line.indexOf("]", tagStart);
 			if (tagStart == -1 || tagEnd == -1) {
 				throw new IllegalArgumentException("Tag delimiter not found in " + line);

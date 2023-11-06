@@ -64,7 +64,15 @@ class ClassLoadingLogParserTests {
 		assertThat(report.getMisses().get("BOOT-INF/lib/spring-jcl-6.1.0-RC2.jar"))
 			.contains("org.apache.commons.logging.LogFactory");
 		assertThat(report.getHits()).contains("java.lang.Object", "java.io.Serializable", "java.lang.Comparable");
+	}
 
+	@Test
+	void parseLogWithAdditionalCategories() {
+		ClassLoadingReport report = parseSampleLog("default-log-format");
+		assertThat(report.getLoadCount()).isEqualTo(3);
+		assertThat(report.getHitRate()).isEqualTo(1.0f);
+		assertThat(report.getMissRate()).isEqualTo(0.0f);
+		assertThat(report.getHits()).contains("java.lang.Object", "java.io.Serializable", "java.lang.Comparable");
 	}
 
 	private ClassLoadingReport parseSampleLog(String name) {
