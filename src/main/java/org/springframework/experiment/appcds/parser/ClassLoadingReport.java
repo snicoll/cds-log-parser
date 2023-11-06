@@ -13,6 +13,16 @@ import org.springframework.util.MultiValueMap;
  */
 public class ClassLoadingReport {
 
+	/**
+	 * The location for dynamic generated lambdas.
+	 */
+	public static final String DYNAMIC_GENERATED_LAMBDA = "__JVM_LookupDefineClass__";
+
+	/**
+	 * The location for dynamic proxies.
+	 */
+	public static final String DYNAMIC_PROXY = "__dynamic_proxy__";
+
 	private final List<String> hits;
 
 	private final MultiValueMap<String, String> misses;

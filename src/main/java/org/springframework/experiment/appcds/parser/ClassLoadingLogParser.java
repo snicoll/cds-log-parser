@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.function.Consumer;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import org.springframework.core.io.Resource;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -23,13 +26,15 @@ import org.springframework.util.StringUtils;
  */
 public class ClassLoadingLogParser {
 
+	private static final Log logger = LogFactory.getLog(ClassLoadingLogParser.class);
+
 	private final Path workingDir;
 
 	public ClassLoadingLogParser(Path workingDir) {
 		this.workingDir = workingDir;
 	}
 
-	ClassLoadingReport parser(Resource resource) throws IOException {
+	public ClassLoadingReport parser(Resource resource) throws IOException {
 		if (!resource.exists()) {
 			throw new IllegalAccessError("Resource " + resource + " does not exist");
 		}
@@ -79,8 +84,13 @@ public class ClassLoadingLogParser {
 				Path pathToUse = path.startsWith(workingDir) ? workingDir.relativize(path) : path;
 				misses.add(pathToUse.toString(), className);
 			}
+			else if (source.equals(ClassLoadingReport.DYNAMIC_GENERATED_LAMBDA)
+					|| source.equals(ClassLoadingReport.DYNAMIC_PROXY)) {
+				misses.add(source, className);
+			}
 			else {
-				throw new UnsupportedOperationException("Not supported: " + logLine);
+				logger.warn("Fallback on default source for " + logLine);
+				misses.add(source, className);
 			}
 		}
 
