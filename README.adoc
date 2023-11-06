@@ -1,0 +1,36 @@
+= AppCDS Log Parser
+
+This little app reads the JVM logs and produce a report about class loading.
+
+== Building
+
+You need Java 17
+
+[indent=0]
+----
+	$ ./mvnw package
+----
+
+The generated jar is executable.
+
+== Using
+
+First, you need to produce the log of the target application.
+By default, the tool look for a file named `cds.log` in the working directory.
+
+Here is an example using a Spring Boot application that is using an AppCDS archive:
+
+[indent=0]
+----
+	$ java -Xlog:class+load:file=cds.log:tags -XX:SharedArchiveFile=app-cds.jsa -jar my-app.jar
+----
+
+To run a report, specify the working directory where the `cds.log` file is located:
+
+[indent=0]
+----
+	$ ./appcds-log-parser.jar --target=/usr/local/my-app
+----
+
+
+
