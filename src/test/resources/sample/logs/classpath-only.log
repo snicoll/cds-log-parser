@@ -1,0 +1,2 @@
+[class,load] org.springframework.boot.loader.net.protocol.jar.Handler source: file:/tmp/test-app/target/app/
+[class,load] org.springframework.boot.loader.net.protocol.jar.JarUrlConnection source: file:/tmp/test-app/target/app/

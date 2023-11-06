@@ -1,0 +1,14 @@
+[class,load] java.lang.Object source: shared objects file
+[class,load] java.io.Serializable source: shared objects file
+[class,load] java.lang.Comparable source: shared objects file
+[class,load] java.lang.CharSequence source: shared objects file
+[class,load] java.lang.constant.Constable source: shared objects file
+[class,load] java.lang.constant.ConstantDesc source: shared objects file
+[class,load] java.lang.String source: shared objects file
+[class,load] java.lang.reflect.AnnotatedElement source: shared objects file
+[class,load] java.lang.reflect.GenericDeclaration source: shared objects file
+[class,load] java.lang.reflect.Type source: shared objects file
+[class,load] java.lang.invoke.TypeDescriptor source: shared objects file
+[class,load] java.lang.invoke.TypeDescriptor$OfField source: shared objects file
+[class,load] java.lang.Class source: shared objects file
+[class,load] java.lang.Cloneable source: shared objects file
