@@ -75,6 +75,17 @@ class ClassLoadingLogParserTests {
 		assertThat(report.getHits()).contains("java.lang.Object", "java.io.Serializable", "java.lang.Comparable");
 	}
 
+	@Test
+	void parseLogWithJdk17Format() {
+		ClassLoadingReport report = parseSampleLog("jdk17-log-format");
+		assertThat(report.getLoadCount()).isEqualTo(4);
+		assertThat(report.getHits()).contains("java.io.FilePermission$1", "sun.security.util.FilePermCompat",
+				"sun.security.util.SecurityProperties");
+		assertThat(report.getMisses()).containsKey("BOOT-INF/lib/spring-boot-3.2.0-SNAPSHOT.jar");
+		assertThat(report.getMisses().get("BOOT-INF/lib/spring-boot-3.2.0-SNAPSHOT.jar"))
+			.contains("org.springframework.boot.ExitCodeEvent");
+	}
+
 	private ClassLoadingReport parseSampleLog(String name) {
 		ClassPathResource resource = new ClassPathResource("sample/logs/%s.log".formatted(name));
 		try {

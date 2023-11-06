@@ -76,13 +76,21 @@ public class ClassLoadingLogParser {
 			int sourceIndex = message.indexOf(SOURCE_TAG);
 			String source = message.substring(sourceIndex + SOURCE_TAG.length()).trim();
 			String className = message.substring(0, sourceIndex).trim();
-			if (HIT_SOURCE.equals(source)) {
+			if (source.startsWith(HIT_SOURCE)) {
 				hits.add(className);
 			}
 			else if (source.startsWith(FILE_URI_PREFIX)) {
 				Path path = Path.of(source.substring(FILE_URI_PREFIX.length()));
 				Path pathToUse = path.startsWith(workingDir) ? workingDir.relativize(path) : path;
 				misses.add(pathToUse.toString(), className);
+			}
+			else if (source.startsWith("jar:nested:")) {
+				int start = source.indexOf("!");
+				int end = source.indexOf("!", start + 1);
+				if (start == -1 || end == -1) {
+					throw new IllegalArgumentException("Nested jar not found in " + source);
+				}
+				misses.add(source.substring(start + 1, end), className);
 			}
 			else if (source.equals(ClassLoadingReport.CLASS_DEFINER)
 					|| source.equals(ClassLoadingReport.DYNAMIC_GENERATED_LAMBDA)

@@ -1,0 +1,4 @@
+[class,load] java.io.FilePermission$1 source: shared objects file (top)
+[class,load] sun.security.util.FilePermCompat source: shared objects file
+[class,load] sun.security.util.SecurityProperties source: shared objects file
+[class,load] org.springframework.boot.ExitCodeEvent source: jar:nested:/Users/snicoll/workspace/work/spring-petclinic/target/spring-petclinic-3.2.0-SNAPSHOT.jar/!BOOT-INF/lib/spring-boot-3.2.0-SNAPSHOT.jar!/
