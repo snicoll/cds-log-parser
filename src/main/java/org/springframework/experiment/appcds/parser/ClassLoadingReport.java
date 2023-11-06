@@ -23,6 +23,12 @@ public class ClassLoadingReport {
 	 */
 	public static final String DYNAMIC_PROXY = "__dynamic_proxy__";
 
+	/**
+	 * TODO.
+	 */
+	public static final String CLASS_DEFINER = "__ClassDefiner__";
+
+
 	private final List<String> hits;
 
 	private final MultiValueMap<String, String> misses;

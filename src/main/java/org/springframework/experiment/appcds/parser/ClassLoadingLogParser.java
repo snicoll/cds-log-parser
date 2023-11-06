@@ -84,8 +84,15 @@ public class ClassLoadingLogParser {
 				Path pathToUse = path.startsWith(workingDir) ? workingDir.relativize(path) : path;
 				misses.add(pathToUse.toString(), className);
 			}
-			else if (source.equals(ClassLoadingReport.DYNAMIC_GENERATED_LAMBDA)
+			else if (source.equals(ClassLoadingReport.CLASS_DEFINER)
+					|| source.equals(ClassLoadingReport.DYNAMIC_GENERATED_LAMBDA)
 					|| source.equals(ClassLoadingReport.DYNAMIC_PROXY)) {
+				misses.add(source, className);
+			}
+			else if (className.startsWith(source)) { // Lambda
+				misses.add(source, className);
+			}
+			else if (source.startsWith("jrt:/")) { // Java Runtime Image
 				misses.add(source, className);
 			}
 			else {
