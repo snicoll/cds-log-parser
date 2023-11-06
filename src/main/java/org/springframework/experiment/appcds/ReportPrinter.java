@@ -22,8 +22,8 @@ class ReportPrinter {
 		out.println("Class Loading Report:");
 		long loadCount = report.getLoadCount();
 		out.printf("%10d classes and JDK proxies loaded%n", loadCount);
-		out.printf("%10d (%.2f%%) from cache%n", report.getHits().size(), report.getHitRate() * 100);
-		out.printf("%10d (%.2f%%) from classpath%n",
+		out.printf("%10d (%5.2f%%) from cache%n", report.getHits().size(), report.getHitRate() * 100);
+		out.printf("%10d (%5.2f%%) from classpath%n",
 				report.getMisses().values().stream().map(List::size).reduce(0, Integer::sum),
 				report.getMissRate() * 100);
 		out.println();
@@ -77,7 +77,8 @@ class ReportPrinter {
 
 		public String createReport(long classesCount) {
 			float share = ((float) total() / (float) classesCount);
-			return "%d (%.2f%%): %.2f%% from cache".formatted(total(), share * 100, hitRate() * 100);
+			return String.format("%" + String.valueOf(classesCount).length() + "d (%5.2f%%): %.2f%% from cache",
+					total(), share * 100, hitRate() * 100);
 		}
 	}
 
