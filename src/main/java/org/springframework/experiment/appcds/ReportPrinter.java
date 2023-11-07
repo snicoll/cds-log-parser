@@ -1,8 +1,12 @@
 package org.springframework.experiment.appcds;
 
 import java.io.PrintStream;
+import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -34,9 +38,12 @@ class ReportPrinter {
 				filter(report, Predicate.not(lambda()).and(Predicate.not(proxy()))).createReport(loadCount));
 		out.println();
 		out.println("Top 10 locations from classpath:");
-		extractTop10(report.getMisses()).forEach((entry) -> {
-			out.printf("%10d %s%n", entry.getValue().size(), entry.getKey());
-		});
+		extractTop10Locations(report.getMisses())
+			.forEach((entry) -> out.printf("%10d %s%n", entry.getValue().size(), entry.getKey()));
+		out.println();
+		out.println("Top 10 packages:");
+		extractTop10Packages(report).forEach((entry) -> out.printf("%10d %s (%.2f%% from cache)%n",
+				entry.getValue().total(), entry.getKey(), entry.getValue().hitRate() * 100));
 		out.println("--------------------------------------------------------------------------");
 	}
 
@@ -46,11 +53,43 @@ class ReportPrinter {
 		return new CategoryDetail(fromCache, fromClasspath);
 	}
 
-	private Stream<Entry<String, List<String>>> extractTop10(MultiValueMap<String, String> content) {
+	private Stream<Entry<String, List<String>>> extractTop10Locations(MultiValueMap<String, String> content) {
 		return content.entrySet()
 			.stream()
 			.sorted(Comparator.<Entry<String, List<String>>>comparingInt(o -> o.getValue().size()).reversed())
 			.limit(10);
+	}
+
+	private Stream<Entry<String, CategoryDetail>> extractTop10Packages(ClassLoadingReport report) {
+		Map<String, Integer> packageHits = new HashMap<>();
+		report.getHits().forEach((className) -> {
+			String packageName = extractPackageName(className);
+			packageHits.merge(packageName, 1, Integer::sum);
+		});
+		Map<String, Integer> packageMisses = new HashMap<>();
+		report.getMisses().values().stream().flatMap(Collection::stream).forEach((className) -> {
+			String packageName = extractPackageName(className);
+			packageMisses.merge(packageName, 1, Integer::sum);
+		});
+		Map<String, CategoryDetail> mappings = new LinkedHashMap<>();
+		packageHits.forEach((className, hitCount) -> {
+			long missRate = packageMisses.getOrDefault(className, 0);
+			mappings.put(className, new CategoryDetail(hitCount, missRate));
+		});
+		packageMisses
+			.forEach((className, missCount) -> mappings.putIfAbsent(className, new CategoryDetail(0, missCount)));
+		return mappings.entrySet()
+			.stream()
+			.sorted(Comparator.<Entry<String, CategoryDetail>>comparingLong(o -> o.getValue().total()).reversed())
+			.limit(10);
+	}
+
+	private String extractPackageName(String className) {
+		String[] split = className.split("\\.");
+		if (split.length > 2) {
+			return "%s.%s".formatted(split[0], split[1]);
+		}
+		return className;
 	}
 
 	private Predicate<String> lambda() {
@@ -65,10 +104,6 @@ class ReportPrinter {
 
 		public float hitRate() {
 			return ((float) fromCache / (float) total());
-		}
-
-		public float missRate() {
-			return 1 - hitRate();
 		}
 
 		public long total() {
