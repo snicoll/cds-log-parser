@@ -32,5 +32,86 @@ To run a report, specify the working directory where the `cds.log` file is locat
 	$ ./appcds-log-parser.jar --target=/usr/local/my-app
 ----
 
+== Examples
 
+This is the report of a Spring Boot app using Hibernate with only the default class archive (i.e. the JDK):
 
+[source]
+---------------------------------------------------------------------------
+--------------------------------------------------------------------------
+Class Loading Report:
+     15743 classes and JDK proxies loaded
+      1228 ( 7,80%) from cache
+     14515 (92,20%) from classpath
+
+Categories:
+   Lambdas  1709 (10,86%): 2,28% from cache
+   Proxies   174 ( 1,11%): 0,00% from cache
+   Classes 13862 (88,05%): 8,58% from cache
+
+Top 10 locations from classpath:
+      3021 BOOT-INF/lib/hibernate-core-6.3.1.Final.jar
+       892 jrt:/java.base
+       799 BOOT-INF/lib/byte-buddy-1.14.9.jar
+       564 BOOT-INF/lib/h2-2.2.224.jar
+       560 BOOT-INF/lib/spring-boot-3.2.0-SNAPSHOT.jar
+       508 BOOT-INF/lib/spring-core-6.1.0-RC2.jar
+       439 BOOT-INF/lib/hibernate-validator-8.0.1.Final.jar
+       428 BOOT-INF/lib/spring-boot-autoconfigure-3.2.0-SNAPSHOT.jar
+       353 BOOT-INF/lib/spring-context-6.1.0-RC2.jar
+       327 __JVM_LookupDefineClass__
+
+Top 10 packages:
+      5054 org.springframework (0,00% from cache)
+      3780 org.hibernate (0,00% from cache)
+       810 net.bytebuddy (0,00% from cache)
+       795 java.lang (35,97% from cache)
+       733 java.util (56,48% from cache)
+       575 org.h2 (0,00% from cache)
+       523 com.fasterxml (0,00% from cache)
+       323 org.aspectj (0,00% from cache)
+       310 org.apache (0,00% from cache)
+       306 jdk.internal (58,82% from cache)
+--------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+And the report for the same app with a dedicated archive, created with the `-XX:ArchiveClassesAtExit=app-cds.jsa`:
+
+[source]
+---------------------------------------------------------------------------
+--------------------------------------------------------------------------
+Class Loading Report:
+     15909 classes and JDK proxies loaded
+     13140 (82,59%) from cache
+      2769 (17,41%) from classpath
+
+Categories:
+   Lambdas  1736 (10,91%): 11,23% from cache
+   Proxies   175 ( 1,10%): 56,57% from cache
+   Classes 14000 (88,00%): 91,76% from cache
+
+Top 10 locations from classpath:
+       759 BOOT-INF/lib/byte-buddy-1.14.9.jar
+       347 __JVM_LookupDefineClass__
+        75 __dynamic_proxy__
+        69 org.springframework.boot.autoconfigure.web.embedded.TomcatWebServerFactoryCustomizer
+        39
+        31 org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryCustomizer
+        19 org.springframework.data.mapping.model.Property
+        16 org.springframework.core.io.support.SpringFactoriesLoader
+        16 org.springframework.data.mapping.model.AnnotationBasedPersistentProperty
+        16 org.springframework.boot.autoconfigure.web.WebProperties
+
+Top 10 packages:
+      5078 org.springframework (77,37% from cache)
+      3776 org.hibernate (92,77% from cache)
+       847 java.lang (60,45% from cache)
+       810 net.bytebuddy (4,94% from cache)
+       737 java.util (98,78% from cache)
+       575 org.h2 (98,09% from cache)
+       523 com.fasterxml (95,98% from cache)
+       323 org.aspectj (100,00% from cache)
+       322 jdk.internal (99,07% from cache)
+       310 org.apache (97,74% from cache)
+--------------------------------------------------------------------------
+---------------------------------------------------------------------------
