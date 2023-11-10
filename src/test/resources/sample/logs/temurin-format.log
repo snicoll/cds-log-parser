@@ -1,0 +1,6 @@
+[class,load] opened: target/my-app-0.0.1-SNAPSHOT.jar
+[class,load] java.lang.Object source: shared objects file
+[class,load] java.io.Serializable source: shared objects file
+[class,load] java.lang.Comparable source: shared objects file
+[class,load] java.lang.invoke.DelegatingMethodHandle$Holder source: instance of java.lang.Shutdown
+[class,load] java.lang.invoke.DirectMethodHandle$Holder source: instance of java.lang.Shutdown

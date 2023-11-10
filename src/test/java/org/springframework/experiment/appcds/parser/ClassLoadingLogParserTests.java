@@ -2,12 +2,14 @@ package org.springframework.experiment.appcds.parser;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
 import org.springframework.core.io.ClassPathResource;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.Assertions.offset;
 
 /**
@@ -84,6 +86,15 @@ class ClassLoadingLogParserTests {
 		assertThat(report.getMisses()).containsKey("BOOT-INF/lib/spring-boot-3.2.0-SNAPSHOT.jar");
 		assertThat(report.getMisses().get("BOOT-INF/lib/spring-boot-3.2.0-SNAPSHOT.jar"))
 			.contains("org.springframework.boot.ExitCodeEvent");
+	}
+
+	@Test
+	void parseLogWithTemurinFormat() {
+		ClassLoadingReport report = parseSampleLog("temurin-format");
+		assertThat(report.getLoadCount()).isEqualTo(5);
+		assertThat(report.getHits()).contains("java.lang.Object", "java.io.Serializable", "java.lang.Comparable");
+		assertThat(report.getMisses()).containsOnly(entry("java.lang.Shutdown", List
+			.of("java.lang.invoke.DelegatingMethodHandle$Holder", "java.lang.invoke.DirectMethodHandle$Holder")));
 	}
 
 	private ClassLoadingReport parseSampleLog(String name) {

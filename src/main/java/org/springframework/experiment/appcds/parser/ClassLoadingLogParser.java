@@ -74,6 +74,10 @@ public class ClassLoadingLogParser {
 			}
 			String message = logLine.message();
 			int sourceIndex = message.indexOf(SOURCE_TAG);
+			if (sourceIndex == -1) {
+				logger.debug("No source found in " + message);
+				return;
+			}
 			String source = message.substring(sourceIndex + SOURCE_TAG.length()).trim();
 			String className = message.substring(0, sourceIndex).trim();
 			if (source.startsWith(HIT_SOURCE)) {
@@ -102,6 +106,9 @@ public class ClassLoadingLogParser {
 			}
 			else if (source.startsWith("jrt:/")) { // Java Runtime Image
 				misses.add(source, className);
+			}
+			else if (source.startsWith("instance of ")) {
+				misses.add(source.substring("instance of ".length()), className);
 			}
 			else {
 				logger.warn("Fallback on default source for " + logLine);
