@@ -51,7 +51,7 @@ class Runner implements ApplicationRunner {
 		CdsArchiveReport report = new CdsArchiveLogParser().parse(new FileSystemResource(cdsArchive));
 		new CdsArchiveReportPrinter().print(report, System.out);
 		System.out
-			.println("To use the archive and collect class loading logs for this application, add the following flag:");
+			.println("To use the archive and collect class loading logs for this application, add the following flags:");
 		System.out.println();
 		System.out.println("\t-XX:SharedArchiveFile=app-cds.jsa -Xlog:class+load:file=cds.log");
 	}
