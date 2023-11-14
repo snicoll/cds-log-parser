@@ -19,7 +19,7 @@ import org.springframework.util.MultiValueMap;
  *
  * @author Stephane Nicoll
  */
-class ReportPrinter {
+class ClassLoadingReportPrinter {
 
 	void print(ClassLoadingReport report, PrintStream out) {
 		out.println("--------------------------------------------------------------------------");
