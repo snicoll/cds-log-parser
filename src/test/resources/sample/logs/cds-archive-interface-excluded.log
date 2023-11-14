@@ -1,0 +1,2 @@
+[cds] Skipping net/bytebuddy/description/type/RecordComponentDescription: interface net/bytebuddy/description/DeclaredByType$WithMandatoryDeclaration is excluded
+[cds] Skipping net/bytebuddy/description/type/RecordComponentDescription$InDefinedShape: interface net/bytebuddy/description/type/RecordComponentDescription is excluded
