@@ -68,7 +68,7 @@ public class ClassLoadingLogParser {
 
 		@Override
 		public void accept(String content) {
-			LogLine logLine = parse(content);
+			LogLine logLine = LogLine.parse(content);
 			if (!logLine.containTags("class", "load")) {
 				return;
 			}
@@ -116,33 +116,10 @@ public class ClassLoadingLogParser {
 			}
 		}
 
-		private LogLine parse(String line) {
-			int tagStart = line.lastIndexOf("[");
-			int tagEnd = line.indexOf("]", tagStart);
-			if (tagStart == -1 || tagEnd == -1) {
-				throw new IllegalArgumentException("Tag delimiter not found in " + line);
-			}
-			String[] tags = line.substring(tagStart + 1, tagEnd).split(",");
-			String msg = line.substring(tagEnd + 1).trim();
-			return new LogLine(List.of(tags), msg);
-		}
-
 		public ClassLoadingReport toReport() {
 			return new ClassLoadingReport(this.hits, this.misses);
 		}
 
-	}
-
-	private record LogLine(List<String> tags, String message) {
-
-		boolean containTags(String... tags) {
-			for (String tag : tags) {
-				if (!this.tags.contains(tag)) {
-					return false;
-				}
-			}
-			return true;
-		}
 	}
 
 }
