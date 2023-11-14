@@ -15,10 +15,40 @@ The generated jar is executable.
 
 == Using
 
-First, you need to produce the log of the target application.
-By default, the tool look for a file named `cds.log` in the working directory.
+=== Creating CDS Archive
 
-Here is an example using a Spring Boot application that is using an AppCDS archive:
+You can use the tool to create the CDS archive for you.
+Based on the working directory, it will detect a Spring Boot exploded structure.
+
+[indent=0]
+----
+	$ ./appcds-log-parser.jar --target=/usr/local/my-app --mode=create
+----
+
+Alternatively, you can specify the jar file to use using the `jar` argument:
+
+[indent=0]
+----
+	$ ./appcds-log-parser.jar --target=/usr/local --jar=my-app.jar --mode=create
+----
+
+This should create a `app-cds.jsa` in the working directory and a report about classes that have been skipped and why.
+It also provides hints of how to use the archive.
+
+If you want to create the archive yourself, you need to specify a flag when starting the app:
+
+[indent=0]
+----
+	$ java -XX:ArchiveClassesAtExit=app-cds.jsa -jar my-app.jar
+----
+
+
+=== Parsing Class Loading Logs
+
+Parsing Class Loading logs allows to figure out how effective the CDS cache is.
+Without any extra option, the tool looks for a file named `cds.log` in the working directory.
+
+You can produce the logs on any application as follows:
 
 [indent=0]
 ----
