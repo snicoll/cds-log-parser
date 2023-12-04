@@ -1,4 +1,4 @@
-package org.springframework.experiment.appcds;
+package org.springframework.experiment.cds;
 
 import java.io.PrintStream;
 import java.util.Collection;
@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Stream;
 
-import org.springframework.experiment.appcds.parser.CdsArchiveReport;
+import org.springframework.experiment.cds.parser.CdsArchiveReport;
 import org.springframework.util.MultiValueMap;
 
 /**

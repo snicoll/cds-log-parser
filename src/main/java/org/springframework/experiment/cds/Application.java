@@ -1,4 +1,4 @@
-package org.springframework.experiment.appcds;
+package org.springframework.experiment.cds;
 
 import org.springframework.boot.Banner.Mode;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

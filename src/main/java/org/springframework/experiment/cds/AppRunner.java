@@ -1,4 +1,4 @@
-package org.springframework.experiment.appcds;
+package org.springframework.experiment.cds;
 
 import java.lang.ProcessBuilder.Redirect;
 import java.nio.file.Files;
@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.experiment.appcds.parser.CdsArchiveLogParser;
+import org.springframework.experiment.cds.parser.CdsArchiveLogParser;
 
 /**
  * Helper class to run an application.
@@ -23,15 +23,15 @@ class AppRunner {
 	 * @return a file that can be parsed by {@link CdsArchiveLogParser}.
 	 */
 	Path createCdsArchive(Path workingDirectory, List<String> processArguments) throws Exception {
-		Path cdsArchiveLogFile = Files.createTempFile("appcds-cds-archive", ".log");
+		Path cdsArchiveLogFile = Files.createTempFile("cds-archive-warnings", ".log");
 		List<String> allArguments = new ArrayList<>();
 		allArguments.add("java");
 		allArguments.add("-Xlog:cds=off:stdout"); // disable logging of CDS in the console
 		allArguments.add("-Xlog:cds=warning:file=%s:tags".formatted(cdsArchiveLogFile.toString()));
-		allArguments.add("-XX:ArchiveClassesAtExit=app-cds.jsa");
+		allArguments.add("-XX:ArchiveClassesAtExit=app-classes.jsa");
 		allArguments.add("-Dspring.context.exit=onRefresh"); // Exit automatically
 		allArguments.addAll(processArguments);
-		Path out = Files.createTempFile("appcds-cds-archive-run", ".log");
+		Path out = Files.createTempFile("cds-archive-run", ".log");
 		int exit = configureOutput(new ProcessBuilder(), out).command(allArguments)
 			.directory(workingDirectory.toFile())
 			.start()
@@ -48,7 +48,7 @@ class AppRunner {
 	 * @return the output of the current java version
 	 */
 	String getJavaVersion() throws Exception {
-		Path tempFile = Files.createTempFile("appcds-java-version", ".log");
+		Path tempFile = Files.createTempFile("cds-java-version", ".log");
 		int exit = configureOutput(new ProcessBuilder(), tempFile).command("java", "--version").start().waitFor();
 		if (exit != 0) {
 			throw new IllegalStateException("Failed to invoke java, make sure it is in your path");

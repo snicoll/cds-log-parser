@@ -1,6 +1,7 @@
-= AppCDS Log Parser
+= CDS Log Parser
 
-This little app reads the JVM logs and produce a report about class loading.
+This little app can create the CDS archive for an app and produce a report of how it went.
+It can also read the JVM logs and produce a report about class loading.
 
 == Building
 
@@ -22,44 +23,44 @@ Based on the working directory, it will detect a Spring Boot exploded structure.
 
 [indent=0]
 ----
-	$ ./appcds-log-parser.jar --target=/usr/local/my-app --mode=create
+	$ ./cds-log-parser.jar --target=/usr/local/my-app --mode=create
 ----
 
 Alternatively, you can specify the jar file to use using the `jar` argument:
 
 [indent=0]
 ----
-	$ ./appcds-log-parser.jar --target=/usr/local --jar=my-app.jar --mode=create
+	$ ./cds-log-parser.jar --target=/usr/local --jar=my-app.jar --mode=create
 ----
 
-This should create a `app-cds.jsa` in the working directory and a report about classes that have been skipped and why.
+This should create a `app-classes.jsa` in the working directory and a report about classes that have been skipped and why.
 It also provides hints of how to use the archive.
 
 If you want to create the archive yourself, you need to specify a flag when starting the app:
 
 [indent=0]
 ----
-	$ java -XX:ArchiveClassesAtExit=app-cds.jsa -jar my-app.jar
+	$ java -XX:ArchiveClassesAtExit=app-classes.jsa -jar my-app.jar
 ----
 
 
 === Parsing Class Loading Logs
 
-Parsing Class Loading logs allows to figure out how effective the CDS cache is.
+Parsing Class Loading logs is a good  way to figure out how effective the CDS cache is.
 Without any extra option, the tool looks for a file named `cds.log` in the working directory.
 
 You can produce the logs on any application as follows:
 
 [indent=0]
 ----
-	$ java -Xlog:class+load:file=cds.log:tags -XX:SharedArchiveFile=app-cds.jsa -jar my-app.jar
+	$ java -Xlog:class+load:file=cds.log:tags -XX:SharedArchiveFile=app-classes.jsa -jar my-app.jar
 ----
 
 To run a report, specify the working directory where the `cds.log` file is located:
 
 [indent=0]
 ----
-	$ ./appcds-log-parser.jar --target=/usr/local/my-app
+	$ ./cds-log-parser.jar --target=/usr/local/my-app
 ----
 
 == Examples
@@ -105,7 +106,7 @@ Top 10 packages:
 --------------------------------------------------------------------------
 ---------------------------------------------------------------------------
 
-And the report for the same app with a dedicated archive, created with the `-XX:ArchiveClassesAtExit=app-cds.jsa`:
+And the report for the same app with a dedicated archive, created with the `-XX:ArchiveClassesAtExit=app-classes.jsa`:
 
 [source]
 ---------------------------------------------------------------------------

@@ -10,10 +10,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>appcds-log-parser</artifactId>
+	<artifactId>cds-log-parser</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>appcds-log-parser</name>
-	<description>appcds-log-parser</description>
+	<description>Create a CDS archive and parse JVM class loading logs</description>
 	<properties>
 		<java.version>17</java.version>
 

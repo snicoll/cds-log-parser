@@ -1,4 +1,4 @@
-package org.springframework.experiment.appcds.parser;
+package org.springframework.experiment.cds.parser;
 
 import java.util.List;
 

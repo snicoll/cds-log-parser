@@ -1,4 +1,4 @@
-package org.springframework.experiment.appcds;
+package org.springframework.experiment.cds;
 
 import java.io.PrintStream;
 import java.util.Collection;
@@ -11,7 +11,7 @@ import java.util.Map.Entry;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import org.springframework.experiment.appcds.parser.ClassLoadingReport;
+import org.springframework.experiment.cds.parser.ClassLoadingReport;
 import org.springframework.util.MultiValueMap;
 
 /**

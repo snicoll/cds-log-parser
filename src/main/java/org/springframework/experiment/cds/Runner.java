@@ -1,4 +1,4 @@
-package org.springframework.experiment.appcds;
+package org.springframework.experiment.cds;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,10 +10,10 @@ import java.util.Locale;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.experiment.appcds.parser.CdsArchiveLogParser;
-import org.springframework.experiment.appcds.parser.CdsArchiveReport;
-import org.springframework.experiment.appcds.parser.ClassLoadingLogParser;
-import org.springframework.experiment.appcds.parser.ClassLoadingReport;
+import org.springframework.experiment.cds.parser.CdsArchiveLogParser;
+import org.springframework.experiment.cds.parser.CdsArchiveReport;
+import org.springframework.experiment.cds.parser.ClassLoadingLogParser;
+import org.springframework.experiment.cds.parser.ClassLoadingReport;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -53,7 +53,7 @@ class Runner implements ApplicationRunner {
 		System.out.println(
 				"To use the archive and collect class loading logs for this application, add the following flags:");
 		System.out.println();
-		System.out.println("\t-XX:SharedArchiveFile=app-cds.jsa -Xlog:class+load:file=cds.log");
+		System.out.println("\t-XX:SharedArchiveFile=app-classes.jsa -Xlog:class+load:file=cds.log");
 	}
 
 	private List<String> detectApplication(ApplicationArguments args, Path workingDirectory) {
