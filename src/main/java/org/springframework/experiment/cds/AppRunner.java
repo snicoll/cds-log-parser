@@ -28,7 +28,7 @@ class AppRunner {
 		allArguments.add("java");
 		allArguments.add("-Xlog:cds=off:stdout"); // disable logging of CDS in the console
 		allArguments.add("-Xlog:cds=warning:file=%s:tags".formatted(cdsArchiveLogFile.toString()));
-		allArguments.add("-XX:ArchiveClassesAtExit=app-classes.jsa");
+		allArguments.add("-XX:ArchiveClassesAtExit=application.jsa");
 		allArguments.add("-Dspring.context.exit=onRefresh"); // Exit automatically
 		allArguments.addAll(processArguments);
 		Path out = Files.createTempFile("cds-archive-run", ".log");

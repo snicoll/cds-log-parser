@@ -33,14 +33,14 @@ Alternatively, you can specify the jar file to use using the `jar` argument:
 	$ ./cds-log-parser.jar --target=/usr/local --jar=my-app.jar --mode=create
 ----
 
-This should create a `app-classes.jsa` in the working directory and a report about classes that have been skipped and why.
+This should create a `application.jsa` in the working directory and a report about classes that have been skipped and why.
 It also provides hints of how to use the archive.
 
 If you want to create the archive yourself, you need to specify a flag when starting the app:
 
 [indent=0]
 ----
-	$ java -XX:ArchiveClassesAtExit=app-classes.jsa -jar my-app.jar
+	$ java -XX:ArchiveClassesAtExit=application.jsa -jar my-app.jar
 ----
 
 
@@ -53,7 +53,7 @@ You can produce the logs on any application as follows:
 
 [indent=0]
 ----
-	$ java -Xlog:class+load:file=cds.log:tags -XX:SharedArchiveFile=app-classes.jsa -jar my-app.jar
+	$ java -Xlog:class+load:file=cds.log:tags -XX:SharedArchiveFile=application.jsa -jar my-app.jar
 ----
 
 To run a report, specify the working directory where the `cds.log` file is located:
@@ -106,7 +106,7 @@ Top 10 packages:
 --------------------------------------------------------------------------
 ---------------------------------------------------------------------------
 
-And the report for the same app with a dedicated archive, created with the `-XX:ArchiveClassesAtExit=app-classes.jsa`:
+And the report for the same app with a dedicated archive, created with the `-XX:ArchiveClassesAtExit=application.jsa`:
 
 [source]
 ---------------------------------------------------------------------------

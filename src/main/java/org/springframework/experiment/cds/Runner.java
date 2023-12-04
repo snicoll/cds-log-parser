@@ -53,7 +53,7 @@ class Runner implements ApplicationRunner {
 		System.out.println(
 				"To use the archive and collect class loading logs for this application, add the following flags:");
 		System.out.println();
-		System.out.println("\t-XX:SharedArchiveFile=app-classes.jsa -Xlog:class+load:file=cds.log");
+		System.out.println("\t-XX:SharedArchiveFile=application.jsa -Xlog:class+load:file=cds.log");
 	}
 
 	private List<String> detectApplication(ApplicationArguments args, Path workingDirectory) {
