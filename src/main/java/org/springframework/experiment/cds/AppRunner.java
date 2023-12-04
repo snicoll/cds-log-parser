@@ -38,7 +38,7 @@ class AppRunner {
 			.waitFor();
 		if (exit != 0) {
 			System.out.println(Files.readString(out));
-			throw new IllegalArgumentException("Failed to run application, see log above");
+			throw new IllegalStateException("Failed to run application, see log above");
 		}
 		return cdsArchiveLogFile;
 	}
